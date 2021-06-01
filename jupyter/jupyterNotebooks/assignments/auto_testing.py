@@ -45,6 +45,7 @@ def test_outputs(file_out,expected_output):
     else:
         print('Test FAILED! ciao Daniele')
 
+        
 def assert_equals(actual,expected,failure_message=""):
     passed=True
     if actual != None and type(actual)==str:
