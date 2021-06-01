@@ -41,9 +41,9 @@ def test_outputs(file_out,expected_output):
         _passed=assert_equals(actual_output[i],expected_output[i])
         passed=passed or _passed
     if correct_num_lines and passed:
-        print('Test PASSED: All lines are es expected')
+        print('Test PASSED!')
     else:
-        print('Test failed: At least 1 line is not as expected (or there is an unexpected number of lines)')
+        print('Test FAILED!')
 
 def assert_equals(actual,expected,failure_message=""):
     passed=True
