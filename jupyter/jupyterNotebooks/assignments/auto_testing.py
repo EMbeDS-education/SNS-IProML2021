@@ -27,7 +27,9 @@ def test_outputs(file_out,expected_output):
     with open(file_out) as f:
         actual_output = f.readlines()
     lines_to_compare=min(len(actual_output),len(expected_output))
+    correct_num_lines=True
     if len(actual_output)!=len(expected_output):
+        correct_num_lines=False
         print(' Test FAILED!')
         print('  The program should print',len(expected_output),'lines while there are',len(actual_output))
         print('  Nevetheless, we compare the first',lines_to_compare,'lines')
@@ -38,10 +40,10 @@ def test_outputs(file_out,expected_output):
         print(' Line',i)
         _passed=assert_equals(actual_output[i],expected_output[i])
         passed=passed or _passed
-    if passed:
-        print('Test passed: All lines are as expected')
+    if correct_num_lines and passed:
+        print('Test PASSED: All lines are es expected')
     else:
-        print('Test failed: At least 1 line is not as expected')
+        print('Test failed: At least 1 line is not as expected (or there is an unexpected number of lines)')
 
 def assert_equals(actual,expected,failure_message=""):
     passed=True
