@@ -23,6 +23,7 @@ import traceback
 
 #Test each line from expected/actual output
 def test_outputs(file_out,expected_output):
+    passed=True
     with open(file_out) as f:
         actual_output = f.readlines()
     lines_to_compare=min(len(actual_output),len(expected_output))
@@ -35,9 +36,15 @@ def test_outputs(file_out,expected_output):
         print('  The program prints',len(expected_output),'lines as expected.')
     for i in range(lines_to_compare):
         print(' Line',i)
-        assert_equals(actual_output[i],expected_output[i])
+        _passed=assert_equals(actual_output[i],expected_output[i])
+        passed=passed or _passed
+    if passed:
+        print('Test passed: All lines are as expected')
+    else:
+        print('Test failed: At least 1 line is not as expected')
 
 def assert_equals(actual,expected,failure_message=""):
+    passed=True
     if actual != None and type(actual)==str:
         actual=actual.strip()
     if expected != None and type(expected)==str:        
@@ -46,12 +53,14 @@ def assert_equals(actual,expected,failure_message=""):
         #print('Test passed')
         print('  Expected and actual output match:',expected)
     else:
+        passed=False
         print('  Test FAILED')
         print('    Expected:',expected)
         print('    Actual:',actual)
         if(failure_message!=""):
             print(failure_message)
-    print()  
+    print()
+    return passed
     
     
 #Run the assignment of the student, and test its output
