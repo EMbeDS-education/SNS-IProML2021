@@ -1,3 +1,9 @@
+from IPython.display import HTML as html_print
+
+def cstr(s, color='black'):
+    return "<text style=color:{}>{}</text>".format(color, s)
+
+
 #These two functions replace 'input()'
 def my_read_list(lst_param):
     for i in lst_param:
@@ -41,9 +47,10 @@ def test_outputs(file_out,expected_output):
         _passed=assert_equals(actual_output[i],expected_output[i])
         passed=passed and _passed
     if correct_num_lines and passed:
-        print('Test PASSED!')
+        #print('Test PASSED!')
+        html_print(cstr('Test PASSED!','green'))
     else:
-        print('Test FAILED!')
+        html_print(cstr('Test FAILED!','red'))
 
         
 def assert_equals(actual,expected,failure_message=""):
@@ -57,7 +64,8 @@ def assert_equals(actual,expected,failure_message=""):
         print('  Expected and actual output match:',expected)
     else:
         passed=False
-        print('  Test FAILED')
+        #print('  Test FAILED')
+        html_print(cstr('Test FAILED!','red'))
         print('    Expected:',expected)
         print('    Actual:',actual)
         if(failure_message!=""):
