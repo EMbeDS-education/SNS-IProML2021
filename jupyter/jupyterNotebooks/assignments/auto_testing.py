@@ -1,8 +1,14 @@
-from IPython.display import HTML as html_print
+#Color codes taken from: https://gist.github.com/abritinthebay/d80eb99b2726c83feb0d97eab95206c4
+reset = "\x1b[0m"
+red = "\x1b[31m"
+green = "\x1b[32m"
+BGblack = "\x1b[40m"
+BGyellow = "\x1b[43m"
 
-def cstr(s, color='black'):
-    return "<text style=color:{}>{}</text>".format(color, s)
-
+def print_green(msg):
+    print(BGyellow+green+ msg +reset)
+def print_red(msg):
+    print(BGblack+red+ msg +reset)    
 
 #These two functions replace 'input()'
 def my_read_list(lst_param):
@@ -36,9 +42,9 @@ def test_outputs(file_out,expected_output):
     correct_num_lines=True
     if len(actual_output)!=len(expected_output):
         correct_num_lines=False
-        print(' Test FAILED!')
-        print('  The program should print',len(expected_output),'lines while there are',len(actual_output))
-        print('  Nevetheless, we compare the first',lines_to_compare,'lines')
+        print_red(' Test FAILED!')
+        print_red('  The program should print '+str(len(expected_output))+' lines while there are '+str(len(actual_output)))
+        print_red('  Nevetheless, we compare the first '+str(lines_to_compare)+' lines')
         print()
     else:
         print('  The program prints',len(expected_output),'lines as expected.')
@@ -47,10 +53,9 @@ def test_outputs(file_out,expected_output):
         _passed=assert_equals(actual_output[i],expected_output[i])
         passed=passed and _passed
     if correct_num_lines and passed:
-        print('Test PASSED!')
-        html_print(cstr('Test PASSED!','green'))
+        print_green('Test PASSED!')
     else:
-        html_print(cstr('Test FAILED!','red'))
+        print_red('Test FAILED!')
 
         
 def assert_equals(actual,expected,failure_message=""):
@@ -61,13 +66,12 @@ def assert_equals(actual,expected,failure_message=""):
         expected=expected.strip()
     if(expected==actual):
         #print('Test passed')
-        print('  Expected and actual output match:',expected)
+        print_green('  Expected and actual output match: '+expected)
     else:
         passed=False
-        print('  Test FAILED')
-        html_print(cstr('Test FAILED!','red'))
-        print('    Expected:',expected)
-        print('    Actual  :',actual)
+        print_red('  Test FAILED')
+        print_red('    Expected: '+expected)
+        print_red('    Actual  : '+actual)
         if(failure_message!=""):
             print(failure_message)
     print()
@@ -99,8 +103,8 @@ def run_and_test(inputs,expected_outputs,asgn,title="",file_out="stdout.txt"):
             print('Test',title)
     except StopIteration as err:
             exception_generated=True
-            print(' You are making too many `input()`. Please check your code.')
-            print(' The problem arised executing the following command:')
+            print_red(' You are making too many `input()`. Please check your code.')
+            print_red(' The problem arised executing the following command:')
             #raise err
             traceback.print_exc(limit=2)
 
