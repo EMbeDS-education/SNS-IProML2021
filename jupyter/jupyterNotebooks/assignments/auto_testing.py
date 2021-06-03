@@ -47,9 +47,10 @@ def test_outputs(file_out,expected_output):
         print_red('  Nevetheless, we compare the first '+str(lines_to_compare)+' lines')
         print()
     else:
-        print('  The program prints',len(expected_output),'lines as expected.')
+        print_green(' The program prints '+str(len(expected_output))+' lines as expected.')
+        print()
     for i in range(lines_to_compare):
-        print(' Line',i)
+        print('  Line',i)
         _passed=assert_equals(actual_output[i],expected_output[i])
         passed=passed and _passed
     if correct_num_lines and passed:
