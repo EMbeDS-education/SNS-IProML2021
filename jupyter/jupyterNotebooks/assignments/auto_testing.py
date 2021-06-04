@@ -67,7 +67,7 @@ def assert_equals(actual,expected,failure_message=""):
         expected=expected.strip()
     if(expected==actual):
         #print('Test passed')
-        print_green('  Expected and actual output match: '+str(expected))
+        print_green('  Expected and actual output match:\n  '+str(expected))
     else:
         passed=False
         print_red('  Test FAILED')
