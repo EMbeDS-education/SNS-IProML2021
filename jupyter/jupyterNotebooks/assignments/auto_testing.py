@@ -67,12 +67,12 @@ def assert_equals(actual,expected,failure_message=""):
         expected=expected.strip()
     if(expected==actual):
         #print('Test passed')
-        print_green('  Expected and actual output match: '+expected)
+        print_green('  Expected and actual output match: '+str(expected))
     else:
         passed=False
         print_red('  Test FAILED')
-        print_red('    Expected: '+expected)
-        print_red('    Actual  : '+actual)
+        print_red('    Expected: '+str(expected))
+        print_red('    Actual  : '+str(actual))
         if(failure_message!=""):
             print(failure_message)
     print()
@@ -113,3 +113,24 @@ def run_and_test(inputs,expected_outputs,asgn,title="",file_out="stdout.txt"):
         #assert_equals("abc","abc")
         #assert_equals("abc","abcd")
         test_outputs(file_out,expected_outputs)
+        
+        
+        
+
+#Run the assignment of the student, and test its output
+def run_and_test_func(inputs,expected_outputs,asgn,more_params=False,title=""):
+    exception_generated=False
+    if len(title)==0:
+        title=str(inputs)
+    all_passed=True
+    for (i,o) in zip(inputs,expected_outputs):
+        print('Test',i)
+        if more_params:
+            passed=assert_equals(asgn(*(i)),o)
+        else:
+            passed=assert_equals(asgn(i),o)
+        all_passed=all_passed and passed
+    if all_passed:
+        print_green('Test PASSED!')
+    else:
+        print_red('Test FAILED!')        
