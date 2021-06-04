@@ -4,11 +4,14 @@ red = "\x1b[31m"
 green = "\x1b[32m"
 BGblack = "\x1b[40m"
 BGyellow = "\x1b[43m"
+BGgray = "\x1b[100m"
 
 def print_green(msg):
     print(BGyellow+green+ msg +reset)
 def print_red(msg):
-    print(BGblack+red+ msg +reset)    
+    #print(BGblack+red+ msg +reset)    
+    #print(BGgray+red+ msg +reset)    
+    print(red+ msg +reset)    
 
 #These two functions replace 'input()'
 def my_read_list(lst_param):
