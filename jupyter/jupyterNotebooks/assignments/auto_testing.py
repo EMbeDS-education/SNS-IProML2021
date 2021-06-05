@@ -108,7 +108,7 @@ def run_and_test(inputs,expected_outputs,asgn,title="",file_out="stdout.txt"):
             #Restore the correct input() and print()
             IPythonKernel._input_request = ipython_input
             sys.stdout = ipython_output
-            print_testname('Test',title)
+            print_testname(f'Test {title}')
     except StopIteration as err:
             exception_generated=True
             print_red(' You are making too many `input()`. Please check your code.')
@@ -131,7 +131,7 @@ def run_and_test_func(inputs,expected_outputs,asgn,more_params=False,title=""):
         title=str(inputs)
     all_passed=True
     for (i,o) in zip(inputs,expected_outputs):
-        print_testname('Test',i)
+        print_testname(f'Test {i}')
         if more_params:
             passed=assert_equals(asgn(*(i)),o)
         else:
