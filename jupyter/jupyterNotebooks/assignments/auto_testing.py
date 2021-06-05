@@ -8,10 +8,14 @@ BGgray = "\x1b[100m"
 
 def print_green(msg):
     print(BGyellow+green+ msg +reset)
+
 def print_red(msg):
     #print(BGblack+red+ msg +reset)    
     #print(BGgray+red+ msg +reset)    
-    print(red+ msg +reset)    
+    print(red+ msg +reset)
+
+def print_testname(msg):
+  print('\x1b[36m\x1b[4m', msg ,'\x1b[0m')
 
 #These two functions replace 'input()'
 def my_read_list(lst_param):
@@ -104,7 +108,7 @@ def run_and_test(inputs,expected_outputs,asgn,title="",file_out="stdout.txt"):
             #Restore the correct input() and print()
             IPythonKernel._input_request = ipython_input
             sys.stdout = ipython_output
-            print('Test',title)
+            print_testname('Test',title)
     except StopIteration as err:
             exception_generated=True
             print_red(' You are making too many `input()`. Please check your code.')
@@ -127,7 +131,7 @@ def run_and_test_func(inputs,expected_outputs,asgn,more_params=False,title=""):
         title=str(inputs)
     all_passed=True
     for (i,o) in zip(inputs,expected_outputs):
-        print('Test',i)
+        print_testname('Test',i)
         if more_params:
             passed=assert_equals(asgn(*(i)),o)
         else:
