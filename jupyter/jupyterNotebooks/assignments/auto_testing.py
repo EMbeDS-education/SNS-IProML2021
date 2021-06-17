@@ -15,7 +15,7 @@ def print_red(msg):
     print(red+ msg +reset)
 
 def print_testname(msg):
-    print('\x1b[36m\x1b[4m', msg ,'\x1b[0m')
+    print('\x1b[36m\x1b[4m\x1b[1m'+ str(msg) +reset)
 
 #These two functions replace 'input()'
 def my_read_list(lst_param):
