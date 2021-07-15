@@ -51,14 +51,29 @@ def biplot_pca(transformed_features, pca, columns, lenght=3.0, scaling_factor = 
     plt.show()
     
 
+def draw_pca_scatterplot(X_set,y_set, xlim,ylim,algo_name,setname):
+    
+    plt.xlim(xlim[0],xlim[1])
+    plt.ylim(ylim[0],ylim[1])
+
+    for i, j in enumerate(np.unique(y_set)):
+        plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
+                    c = 'red' if j==1 else "green", label ='malignant' if j==1 else "benign")
+
+    plt.title('{} with PCA ({} Set)' .format(algo_name,setname))
+    plt.xlabel('Component 1')
+    plt.ylabel('Component 2')
+    plt.legend()
+    
 # for visualization  (and teaching) purpose
-def draw_boundary( algo, X_train,X_test, y_train, y_test):
+def draw_boundary( algo, X_train,X_test, y_train, y_test, verbose=0):
     algo_name = type(algo).__name__
     # for visualization
     reduction = PCA(n_components=2)
     X_train_reduced = reduction.fit_transform(X_train)    
     X_test_reduced = reduction.transform(X_test)
-
+    
+    
     # Trains model
     classifier = algo
     classifier.fit(X_train_reduced, y_train)    
@@ -72,26 +87,38 @@ def draw_boundary( algo, X_train,X_test, y_train, y_test):
     #meshgrid 
     X1, X2 = np.meshgrid(np.arange(start = X_test_reduced[:, 0].min() - 1, stop = X_test_reduced[:, 0].max() + 1, step = 0.1),
                              np.arange(start = X_test_reduced[:, 1].min() - 1, stop = X_test_reduced[:, 1].max() + 1, step = 0.1))
+    xlim = X1.min(), X1.max()
+    ylim = X2.min(), X2.max()
     
+    # plot the dataset
+    if verbose>1:        
+        plt.figure(figsize = (14,6))
+        draw_pca_scatterplot(np.concatenate((X_train_reduced,X_test_reduced)), np.concatenate((y_train,y_test)),xlim,ylim,algo_name, 'Dataset')
+        plt.show()
+    
+    # plot train and test set
+    if verbose>0:
+        for setname, (X_set, y_set) in sets.items():
+            plt.figure(figsize = (14,6))
+            draw_pca_scatterplot(X_set, y_set,xlim,ylim,algo_name, setname)
+            plt.show()
+    
+    
+    # plot decision boundary
     for setname, (X_set, y_set) in sets.items():
         plt.figure(figsize = (14,6))
-        
-        
-       
         plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),
-                     alpha = 0.6, cmap = ListedColormap(( 'green','red')))
-        plt.xlim(X1.min(), X1.max())
-        plt.ylim(X2.min(), X2.max())
-
-        for i, j in enumerate(np.unique(y_set)):
-            plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
-                        c = 'red' if j==1 else "green", label ='malignant' if j==1 else "benign")
-
+             alpha = 0.6, cmap = ListedColormap(( 'green','red')))
+        draw_pca_scatterplot(X_set, y_set,xlim,ylim,algo_name, setname)    
         plt.title('{} Boundary Line with PCA ({} Set)' .format(algo_name,setname))
-        plt.xlabel('Component 1')
-        plt.ylabel('Component 2')
-        plt.legend()
         plt.show()
+        
+        if (verbose>1 and setname == 'Training'):
+            plt.figure(figsize = (14,6))
+            plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),
+             alpha = 0.6, cmap = ListedColormap(( 'green','red')))
+            plt.title('{} Boundary Line with PCA ({} Set)' .format(algo_name,setname))
+            plt.show()
     
 
 def cv_scores_explained(model, X, y):
