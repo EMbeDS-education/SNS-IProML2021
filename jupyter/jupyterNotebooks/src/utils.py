@@ -173,7 +173,7 @@ def cv_scores_explained(model, X, y):
 
 #ROC curve (receiver operating characteristic curve) 
 def roc_curve_model(model,x_test,y_test, algo_name=''):
-    y_prob = model.predict_proba(x_test)[:,1] # This will give you positive class prediction probabilitie
+    y_prob = model.predict_proba(x_test)[:,1] # This will give you positive class prediction probabilities
     false_positive_rate, true_positive_rate, thresholds = roc_curve(y_test, y_prob)
     roc_auc = auc(false_positive_rate, true_positive_rate)
 
